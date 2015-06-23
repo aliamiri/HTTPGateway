@@ -1,5 +1,8 @@
-package com.asan.testServer;
+package com.hi.server;
 
+import com.hi.services.Response;
+import com.hi.sessions.Session;
+import com.hi.sessions.SessionManager;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerAdapter;
@@ -17,6 +20,8 @@ import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
 public class ServerChannelHandler extends ChannelHandlerAdapter {
     private static final byte[] CONTENT = {};
+    private static SessionManager sessionManager = new SessionManager();
+
 
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) {
@@ -30,10 +35,20 @@ public class ServerChannelHandler extends ChannelHandlerAdapter {
             if (HttpHeaderUtil.is100ContinueExpected(req)) {
                 ctx.write(new DefaultFullHttpResponse(HTTP_1_1, CONTINUE));
             }
+
             QueryStringDecoder queryDecoder = new QueryStringDecoder(req.uri());
             Map<String, List<String>> queryParams = queryDecoder.parameters();
+
+            Session session = sessionManager.getSession(queryParams.get("MSISDN").get(0));
+            Response sessionResponse;
+            if (session != null)
+                sessionResponse = sessionManager.updateSession(session, queryParams.get("input").get(0));
+            else
+                sessionResponse = sessionManager.addSession(queryParams.get("MSISDN").get(0), queryParams.get("input").get(0));
+
             boolean keepAlive = HttpHeaderUtil.isKeepAlive(req);
-            FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK, Unpooled.wrappedBuffer(CONTENT));
+            FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK, Unpooled.wrappedBuffer(sessionResponse.getResponseText().getBytes()));
+            response.headers().set(EXPIRES, "-1");
             response.headers().set(CONTENT_TYPE, "text/plain");
             response.headers().setInt(CONTENT_LENGTH, response.content().readableBytes());
 

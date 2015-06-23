@@ -1,4 +1,4 @@
-package com.asan.testServer;
+package com.hi.server;
 
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;

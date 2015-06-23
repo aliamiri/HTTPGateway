@@ -1,5 +1,6 @@
-package com.asan.testServer;
+package com.hi.server;
 
+import com.hi.sessions.SessionManager;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelOption;
@@ -14,7 +15,8 @@ public final class HttpGateWay {
     static final int PORT = Integer.parseInt(System.getProperty("port", "8083"));
 
     public static void main(String[] args) throws Exception {
-        // Configure the server.
+
+        SessionManager.serviceNames.put(1,"com.hi.services.ChargeService");
         EventLoopGroup bossGroup = new NioEventLoopGroup(10);
         EventLoopGroup workerGroup = new NioEventLoopGroup(10);
         try {
