@@ -1,6 +1,6 @@
-package com.hi.server;
+package com.hi.serverPkg;
 
-import com.hi.sessions.SessionManager;
+import com.hi.sessionPkg.SessionManager;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelOption;

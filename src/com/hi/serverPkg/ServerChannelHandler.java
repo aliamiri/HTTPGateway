@@ -1,8 +1,8 @@
-package com.hi.server;
+package com.hi.serverPkg;
 
-import com.hi.services.Response;
-import com.hi.sessions.Session;
-import com.hi.sessions.SessionManager;
+import com.hi.servicePkg.Response;
+import com.hi.sessionPkg.Session;
+import com.hi.sessionPkg.SessionManager;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerAdapter;

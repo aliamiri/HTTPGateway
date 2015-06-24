@@ -1,10 +1,10 @@
-package com.hi.sessions;
+package com.hi.sessionPkg;
 
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.hi.services.IService;
-import com.hi.services.Response;
+import com.hi.servicePkg.IService;
+import com.hi.servicePkg.Response;
 
 import java.util.ArrayList;
 import java.util.List;

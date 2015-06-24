@@ -1,6 +1,6 @@
-package com.hi.sessions;
+package com.hi.sessionPkg;
 
-import com.hi.services.IService;
+import com.hi.servicePkg.IService;
 
 import java.util.List;
 
