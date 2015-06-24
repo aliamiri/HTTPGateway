@@ -48,6 +48,7 @@ public class SessionManager {
             if (session.inputs.size() > 1) {
                 session.inputs.remove(0);
                 IService instance = (IService) Class.forName(serviceNames.get(session.inputs.remove(0))).newInstance();
+                instance.init(session.lang,session.mobileNo);
                 session.service = instance;
                 response = session.service.processCode(session.inputs);
             } else {

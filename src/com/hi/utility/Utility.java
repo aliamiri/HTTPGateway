@@ -36,11 +36,11 @@ public class Utility {
     private void initialize() {
         Properties properties = new Properties();
         try {
-            properties.load(new FileInputStream("fa_messages.prop"));
+            properties.load(new FileInputStream("fa_messages.properties"));
             persianMap = Maps.fromProperties(properties);
-            properties.load(new FileInputStream("en_messages.prop"));
+            properties.load(new FileInputStream("en_messages.properties"));
             englishMap = Maps.fromProperties(properties);
-            properties.load(new FileInputStream("fi_messages.prop"));
+            properties.load(new FileInputStream("fi_messages.properties"));
             finglishMap = Maps.fromProperties(properties);
         } catch (IOException e) {
             //TODO log
@@ -60,7 +60,7 @@ public class Utility {
                 retVal = finglishMap.get(inputStr);
                 break;
         }
-        while (replacesStrs.size() > 0)
+        while (replacesStrs != null && replacesStrs.size() > 0)
             retVal = inputStr.replaceFirst("&?&", replacesStrs.get(0));
         return retVal;
     }

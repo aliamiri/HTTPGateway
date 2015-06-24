@@ -12,4 +12,18 @@ public class Session {
     protected String mobileNo;
     protected List<String> inputs;
     protected IService service;
+    protected int lang = 2;
+
+    public IService getService() {
+        return service;
+    }
+
+    public List<String> getInputs() {
+        return inputs;
+    }
+
+    public String getMobileNo() {
+        return mobileNo;
+    }
+
 }
