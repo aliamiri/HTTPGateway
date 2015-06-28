@@ -1,6 +1,6 @@
 package com.hi.servicePkg;
 
-import com.hi.utility.Utility;
+import com.hi.utilityPkg.Utility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,9 +67,9 @@ public class ChargeService implements IService {
     private String confirmationStep(String selectedStep) {
         List<String> vars = new ArrayList<>();
         if (selectedStep.equals("1")) {
-            int requestFromSwitch = requestFromSwitch(cardNumber, cardPss);
+            int requestFromSwitch = requestFromSwitch();
             if (requestFromSwitch != -1) {
-                if (requestCharge(chargeType)) {
+                if (requestCharge()) {
                     vars.add(mobileNumber);
                     vars.add(requestFromSwitch + "");
                     String charge_send = utility.getMessage("Charge_Send", vars, lang);
@@ -82,18 +82,17 @@ public class ChargeService implements IService {
             return utility.getMessage("Canceled_Purchase", null, lang);
     }
 
-    private boolean requestCharge(int chargeType) {
-        //TODO must send a topup charge request to irancell
+    private boolean requestCharge() {
+        //TODO must send a topUp charge request to irancell
         return true;
     }
 
-    private int requestFromSwitch(String cardNumber, String cardPss) {
+    private int requestFromSwitch() {
         //TODO must send a buy request to switch
         return 123123;
     }
 
     private String passStep(String selectedStep) {
-
         cardPss = selectedStep;
         step++;
         List<String> vars = new ArrayList<>();
@@ -122,18 +121,23 @@ public class ChargeService implements IService {
         if (selectedStep.length() == 16 || selectedStep.length() == 19) {
             cardNumber = selectedStep;
             step++;
-            return utility.getMessage("Enter_Card_Number", null, lang);
+            return utility.getMessage("Enter_Card_Password", null, lang);
         }
-        return utility.getMessage("Charge_First_Message", null, lang);
+        return utility.getMessage("Invalid_Card_Number", null, lang);
     }
 
     private String mobileStep(String selectedStep) {
-        if (selectedStep.length() == 11) {
-            mobileNumber = selectedStep;
-            step++;
-            return utility.getMessage("Enter_Card_Password",null,lang);
+        try {
+            Double.parseDouble(selectedStep);
+            if (selectedStep.length() == 11) {
+                mobileNumber = selectedStep;
+                step++;
+                return utility.getMessage("Enter_Card_Number", null, lang);
+            }
+        } catch (Exception ex) {
+            //TODO log
         }
-        return utility.getMessage("Charge_First_Message", null, lang);
+        return utility.getMessage("Invalid_Mobile_Number", null, lang);
     }
 
     private String firstStep(String selectedStep) {
@@ -142,7 +146,7 @@ public class ChargeService implements IService {
             if (selected > 0 && selected < 5) {
                 chargeType = selected;
                 step++;
-                return utility.getMessage("Enter_Mobile_Number",null,lang);
+                return utility.getMessage("Enter_Mobile_Number", null, lang);
             }
         } catch (Exception ex) {
             //TODO log
